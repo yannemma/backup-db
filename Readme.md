@@ -16,4 +16,5 @@ Pour créer un script de sauvegarde, vous pouvez utiliser n'importe quel langage
 Dans cet exemple, nous allons créer un script Bash.
 
 Créez un nouveau fichier appelé backup.sh et ajoutez le code suivant :
-Screenshot from 2024-09-19 06-34-38.png
+
+![image](https://github.com/user-attachments/assets/6fb51d22-25c8-4c44-a588-7bb2aef8dcae)
