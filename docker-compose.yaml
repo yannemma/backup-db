@@ -13,6 +13,7 @@ services:
       - minio_data:/data
     networks:
       - mynetwork
+     restart: always
 
   db:
     image: postgres:12
@@ -45,6 +46,7 @@ services:
       AXELOR_CONFIG_DB_DEFAULT_PASSWORD: admin
     networks:
       - mynetwork
+    restart: always
 
 volumes:
   minio_data:
