@@ -1,0 +1,55 @@
+version: '3'
+services:
+  minio:
+    container_name: minio
+    image: minio/minio
+    env_file:
+      - .env
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"  # API endpoint
+      - "9001:9001"  # Console endpoint
+    volumes:
+      - minio_data:/data
+    networks:
+      - mynetwork
+
+  db:
+    image: postgres:12
+    environment:
+      POSTGRES_DB: axelor-open-suite
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5435:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - mynetwork
+    restart: always
+    container_name: axelor-db
+
+  axelor-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    container_name: axelor-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      AXELOR_CONFIG_DB_DEFAULT_URL: jdbc:postgresql://db:5432/axelor-open-suite
+      AXELOR_CONFIG_DB_DEFAULT_USER: admin
+      AXELOR_CONFIG_DB_DEFAULT_PASSWORD: admin
+    networks:
+      - mynetwork
+
+volumes:
+  minio_data:
+  postgres_data:
+
+networks:
+  mynetwork:
+    driver: bridge
